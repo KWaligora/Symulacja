@@ -52,8 +52,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
-		900,
-		700,
+		960,
+		750,
 		NULL,
 		NULL,
 		hInstance,
@@ -69,11 +69,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	hMDIClient = CreateWindowEx(0, "MDICLIENT", (LPCTSTR)NULL,
 		WS_CHILD | WS_CLIPCHILDREN | WS_VSCROLL | WS_HSCROLL,
-		5, 5, 400, 300, hwnd, (HMENU)0xCAC, hInstance, (LPSTR)& ccs);
+		5, 5, 700, 700, hwnd, (HMENU)0xCAC, hInstance, (LPSTR)& ccs);
 
 	ShowWindow(hMDIClient, SW_SHOW);
 
-	hNew = CreateWindowEx(0, "BUTTON", "NOWY", WS_CHILD | WS_VISIBLE, 660, 5, 150, 30, hwnd, (HMENU)ID_NEW, hInstance, NULL);
+	hNew = CreateWindowEx(0, "BUTTON", "NOWY", WS_CHILD | WS_VISIBLE, 750, 10, 150, 30, hwnd, (HMENU)ID_NEW, hInstance, NULL);
 
 	while (GetMessage(&messages, NULL, 0, 0)) {
 		if (!TranslateMDISysAccel(hMDIClient, &messages)) {
