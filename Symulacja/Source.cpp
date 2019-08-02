@@ -1,7 +1,6 @@
 #include <windows.h>
 
 #define ID_MDI_FIRSTCHILD  50000
-#define ID_NEW 30222
 
 LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK ChildWindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -10,7 +9,10 @@ char szClassName[] = "KlasaOkna";
 char szChildName[] = "KlasaOknaDziecka";
 
 HWND hMDIClient;
-HWND hNew;
+HWND hMasaKulki;
+HWND hMasaPreta;
+HWND hPredkoscKulki;
+HWND hPrzycisk;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 
@@ -40,7 +42,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	wincl.lpfnWndProc = ChildWindowProcedure;
 	wincl.lpszMenuName = (LPCTSTR)NULL;
-	wincl.lpszClassName = "Main";
+	wincl.lpszClassName = "KlasaOknaDziecka";
 
 	if (!RegisterClassEx(&wincl))
 		return FALSE;
@@ -48,12 +50,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	hwnd = CreateWindowEx(
 		0,
 		szClassName,
-		"Symulacja",
+		"Aplikacja MDI",
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
-		960,
-		750,
+		950,
+		760,
 		NULL,
 		NULL,
 		hInstance,
@@ -73,7 +75,38 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	ShowWindow(hMDIClient, SW_SHOW);
 
-	hNew = CreateWindowEx(0, "BUTTON", "NOWY", WS_CHILD | WS_VISIBLE, 750, 10, 150, 30, hwnd, (HMENU)ID_NEW, hInstance, NULL);
+	CreateWindowEx(0, "STATIC", "Masa Prêta:", WS_CHILD | WS_VISIBLE | SS_LEFT,
+		720, 30, 150, 20, hwnd, NULL, hInstance, NULL);
+
+	hMasaPreta = CreateWindowEx(WS_EX_CLIENTEDGE, "EDIT", NULL, WS_CHILD | WS_BORDER | WS_VISIBLE,
+		830, 30, 50, 20, hwnd, NULL, hInstance, NULL);
+
+	CreateWindowEx(0, "STATIC", "Kg", WS_CHILD | WS_VISIBLE | SS_LEFT,
+		890, 30, 150, 20, hwnd, NULL, hInstance, NULL);
+
+	CreateWindowEx(0, "STATIC", "Masa kulki:", WS_CHILD | WS_VISIBLE | SS_LEFT,
+		720, 80, 150, 20, hwnd, NULL, hInstance, NULL);
+
+	hMasaKulki = CreateWindowEx(WS_EX_CLIENTEDGE, "EDIT", NULL, WS_CHILD | WS_BORDER | WS_VISIBLE,
+		830, 80, 50, 20, hwnd, NULL, hInstance, NULL);
+
+	CreateWindowEx(0, "STATIC", "Kg", WS_CHILD | WS_VISIBLE | SS_LEFT,
+		890, 80, 150, 20, hwnd, NULL, hInstance, NULL);
+
+	CreateWindowEx(0, "STATIC", "Prêdkoœæ kulki:" , WS_CHILD | WS_VISIBLE | SS_LEFT,
+		720, 130, 150, 20, hwnd, NULL, hInstance, NULL);
+
+	hPredkoscKulki = CreateWindowEx(WS_EX_CLIENTEDGE, "EDIT", NULL, WS_CHILD | WS_BORDER | WS_VISIBLE,
+		830, 130, 50, 20, hwnd, NULL, hInstance, NULL);
+
+	CreateWindowEx(0, "STATIC", "Km/h", WS_CHILD | WS_VISIBLE | SS_LEFT,
+		890, 130, 150, 20, hwnd, NULL, hInstance, NULL);
+
+
+	hPrzycisk = CreateWindowEx(0, "BUTTON", "Start", WS_CHILD | WS_VISIBLE, 745, 180, 150, 30, hwnd, NULL, hInstance, NULL);
+
+	HWND Footer = CreateWindowEx(0, "STATIC", "Kamil Waligóra 2019", WS_CHILD | WS_VISIBLE | SS_RIGHT,
+		730, 700, 150, 20, hwnd, NULL, hInstance, NULL);
 
 	while (GetMessage(&messages, NULL, 0, 0)) {
 		if (!TranslateMDISysAccel(hMDIClient, &messages)) {
@@ -88,6 +121,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
+
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
