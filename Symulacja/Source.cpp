@@ -4,6 +4,7 @@
 
 LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK ChildWindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+void CreateFront(HWND hwnd, HINSTANCE hInstance);
 
 char szClassName[] = "KlasaOkna";
 char szChildName[] = "KlasaOknaDziecka";
@@ -75,38 +76,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	ShowWindow(hMDIClient, SW_SHOW);
 
-	CreateWindowEx(0, "STATIC", "Masa Prêta:", WS_CHILD | WS_VISIBLE | SS_LEFT,
-		720, 30, 150, 20, hwnd, NULL, hInstance, NULL);
-
-	hMasaPreta = CreateWindowEx(WS_EX_CLIENTEDGE, "EDIT", NULL, WS_CHILD | WS_BORDER | WS_VISIBLE,
-		830, 30, 50, 20, hwnd, NULL, hInstance, NULL);
-
-	CreateWindowEx(0, "STATIC", "Kg", WS_CHILD | WS_VISIBLE | SS_LEFT,
-		890, 30, 150, 20, hwnd, NULL, hInstance, NULL);
-
-	CreateWindowEx(0, "STATIC", "Masa kulki:", WS_CHILD | WS_VISIBLE | SS_LEFT,
-		720, 80, 150, 20, hwnd, NULL, hInstance, NULL);
-
-	hMasaKulki = CreateWindowEx(WS_EX_CLIENTEDGE, "EDIT", NULL, WS_CHILD | WS_BORDER | WS_VISIBLE,
-		830, 80, 50, 20, hwnd, NULL, hInstance, NULL);
-
-	CreateWindowEx(0, "STATIC", "Kg", WS_CHILD | WS_VISIBLE | SS_LEFT,
-		890, 80, 150, 20, hwnd, NULL, hInstance, NULL);
-
-	CreateWindowEx(0, "STATIC", "Prêdkoœæ kulki:" , WS_CHILD | WS_VISIBLE | SS_LEFT,
-		720, 130, 150, 20, hwnd, NULL, hInstance, NULL);
-
-	hPredkoscKulki = CreateWindowEx(WS_EX_CLIENTEDGE, "EDIT", NULL, WS_CHILD | WS_BORDER | WS_VISIBLE,
-		830, 130, 50, 20, hwnd, NULL, hInstance, NULL);
-
-	CreateWindowEx(0, "STATIC", "Km/h", WS_CHILD | WS_VISIBLE | SS_LEFT,
-		890, 130, 150, 20, hwnd, NULL, hInstance, NULL);
-
-
-	hPrzycisk = CreateWindowEx(0, "BUTTON", "Start", WS_CHILD | WS_VISIBLE, 745, 180, 150, 30, hwnd, NULL, hInstance, NULL);
-
-	HWND Footer = CreateWindowEx(0, "STATIC", "Kamil Waligóra 2019", WS_CHILD | WS_VISIBLE | SS_RIGHT,
-		730, 700, 150, 20, hwnd, NULL, hInstance, NULL);
+	CreateFront(hwnd, hInstance);
 
 	while (GetMessage(&messages, NULL, 0, 0)) {
 		if (!TranslateMDISysAccel(hMDIClient, &messages)) {
@@ -143,4 +113,39 @@ LRESULT CALLBACK ChildWindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LP
 		return DefMDIChildProc(hwnd, message, wParam, lParam);
 	}
 	return 0;
+}
+
+void CreateFront(HWND hwnd, HINSTANCE hInstance) {
+	CreateWindowEx(0, "STATIC", "Masa Prêta:", WS_CHILD | WS_VISIBLE | SS_LEFT,
+		720, 30, 150, 20, hwnd, NULL, hInstance, NULL);
+
+	hMasaPreta = CreateWindowEx(WS_EX_CLIENTEDGE, "EDIT", "0", WS_CHILD | WS_BORDER | WS_VISIBLE,
+		830, 30, 50, 20, hwnd, NULL, hInstance, NULL);
+
+	CreateWindowEx(0, "STATIC", "Kg", WS_CHILD | WS_VISIBLE | SS_LEFT,
+		890, 30, 150, 20, hwnd, NULL, hInstance, NULL);
+
+	CreateWindowEx(0, "STATIC", "Masa kulki:", WS_CHILD | WS_VISIBLE | SS_LEFT,
+		720, 80, 150, 20, hwnd, NULL, hInstance, NULL);
+
+	hMasaKulki = CreateWindowEx(WS_EX_CLIENTEDGE, "EDIT", "0", WS_CHILD | WS_BORDER | WS_VISIBLE,
+		830, 80, 50, 20, hwnd, NULL, hInstance, NULL);
+
+	CreateWindowEx(0, "STATIC", "Kg", WS_CHILD | WS_VISIBLE | SS_LEFT,
+		890, 80, 150, 20, hwnd, NULL, hInstance, NULL);
+
+	CreateWindowEx(0, "STATIC", "Prêdkoœæ kulki:", WS_CHILD | WS_VISIBLE | SS_LEFT,
+		720, 130, 150, 20, hwnd, NULL, hInstance, NULL);
+
+	hPredkoscKulki = CreateWindowEx(WS_EX_CLIENTEDGE, "EDIT", "0", WS_CHILD | WS_BORDER | WS_VISIBLE,
+		830, 130, 50, 20, hwnd, NULL, hInstance, NULL);
+
+	CreateWindowEx(0, "STATIC", "Km/h", WS_CHILD | WS_VISIBLE | SS_LEFT,
+		890, 130, 150, 20, hwnd, NULL, hInstance, NULL);
+
+
+	hPrzycisk = CreateWindowEx(0, "BUTTON", "Start", WS_CHILD | WS_VISIBLE, 745, 180, 150, 30, hwnd, NULL, hInstance, NULL);
+
+	HWND Footer = CreateWindowEx(0, "STATIC", "Kamil Waligóra 2019", WS_CHILD | WS_VISIBLE | SS_RIGHT,
+		730, 700, 150, 20, hwnd, NULL, hInstance, NULL);
 }
