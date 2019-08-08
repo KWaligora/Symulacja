@@ -1,4 +1,5 @@
 #include <windows.h>
+#include "Kulka.h"
 
 #define ID_MDI_FIRSTCHILD  50000
 
@@ -16,6 +17,9 @@ HWND hMasaPreta;
 HWND hPredkoscKulki;
 HWND hPrzycisk;
 HWND hChild;
+
+const WORD ID_TIMER = 1;
+Kulka kulka;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 
@@ -45,6 +49,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	wincl.lpfnWndProc = ChildWindowProcedure;
 	wincl.lpszMenuName = (LPCTSTR)NULL;
 	wincl.lpszClassName = "KlasaOknaDziecka";
+	wincl.style = CS_HREDRAW | CS_VREDRAW | CS_NOCLOSE;
 
 	if (!RegisterClassEx(&wincl))
 		return FALSE;
@@ -77,9 +82,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		5, 5, 700, 700, hwnd, (HMENU)0xCAC, hInstance, (LPSTR)& ccs);
 
 	ShowWindow(hMDIClient, nCmdShow);
-
-	CreateFront(hInstance);	
-
+	//------------------------------------------------KOD-------------------------------------------------
+	CreateFront(hInstance);
+	if (SetTimer(hChild, ID_TIMER, 100, NULL) == 0)
+		MessageBox(hChild, "Nie mo¿na utworzyæ timera", "damn", MB_ICONSTOP);
+	//----------------------------------------------------------------------------------------------------
 
 	while (GetMessage(&messages, NULL, 0, 0)) {
 		if (!TranslateMDISysAccel(hMDIClient, &messages)) {
@@ -106,7 +113,14 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 
 LRESULT CALLBACK ChildWindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
-
+	case WM_TIMER:
+		InvalidateRect(hwnd, NULL,NULL);
+		break;
+	case WM_PAINT:
+		kulka.Rysuj(hwnd);
+		break;
+	case WM_DESTROY:
+		KillTimer(hChild, ID_TIMER);
 	default:
 		return DefMDIChildProc(hwnd, message, wParam, lParam);
 	}
@@ -155,6 +169,7 @@ void CreateFront(HINSTANCE hInstance) {
 	mcs.y = 0;
 	mcs.cx = 700; // domyœlne wymiary
 	mcs.cy = 700;
+	//mcs.style = MDIS_ALLCHILDSTYLES;
 	mcs.style &= ~WS_MAXIMIZE;
 
 	hChild = (HWND)SendMessage(hMDIClient, WM_MDICREATE, 0, (LONG)& mcs);
@@ -163,4 +178,7 @@ void CreateFront(HINSTANCE hInstance) {
 		MessageBox(hwnd, "Nie uda³o siê utworzyæ okienka MDI!", "A to szkoda...",
 			MB_ICONEXCLAMATION | MB_OK);
 	}
+	HBRUSH brush = CreateSolidBrush(RGB(255, 255, 255)); //zmiana koloru t³a
+	SetClassLongPtr(hChild, GCLP_HBRBACKGROUND, (LONG)brush);
 }
+
