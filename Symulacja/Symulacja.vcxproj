@@ -116,10 +116,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Kulka.cpp" />
+    <ClCompile Include="Pret.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Kulka.h" />
+    <ClInclude Include="Pret.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,11 +1,14 @@
 #include <windows.h>
 #include "Kulka.h"
+#include "Pret.h"
 
 #define ID_MDI_FIRSTCHILD  50000
 
 LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK ChildWindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 void CreateFront(HINSTANCE hInstance);
+void Odczyt(HWND h);
+void Refresh();
 
 char szClassName[] = "KlasaOkna";
 char szChildName[] = "KlasaOknaDziecka";
@@ -20,6 +23,8 @@ HWND hChild;
 
 const WORD ID_TIMER = 1;
 Kulka kulka;
+Pret pret;
+LPSTR Bufor;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 
@@ -84,7 +89,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ShowWindow(hMDIClient, nCmdShow);
 	//------------------------------------------------KOD-------------------------------------------------
 	CreateFront(hInstance);
-	if (SetTimer(hChild, ID_TIMER, 100, NULL) == 0)
+	if (SetTimer(hChild, ID_TIMER, 10, NULL) == 0)
 		MessageBox(hChild, "Nie mo¿na utworzyæ timera", "damn", MB_ICONSTOP);
 	//----------------------------------------------------------------------------------------------------
 
@@ -99,6 +104,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
+	case WM_COMMAND:
+		if ((HWND)lParam == hPrzycisk) {
+			Odczyt(hPredkoscKulki);			
+			kulka.SetSpeed(atoi(Bufor));
+			GlobalFree(Bufor);
+	}
+	break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
@@ -114,10 +126,20 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 LRESULT CALLBACK ChildWindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
 	case WM_TIMER:
-		InvalidateRect(hwnd, NULL,NULL);
+		//InvalidateRect(hwnd, NULL,NULL);
 		break;
 	case WM_PAINT:
-		kulka.Rysuj(hwnd);
+		RECT rcOkno;
+		PAINTSTRUCT ps;
+		HDC hdc;
+		hdc = BeginPaint(hwnd, &ps);
+		GetClientRect(hwnd, &rcOkno);
+		SetMapMode(hdc, MM_ANISOTROPIC);
+		SetWindowExtEx(hdc, 700, 700, NULL);
+		SetViewportExtEx(hdc, rcOkno.right, rcOkno.bottom, NULL);
+		kulka.Rysuj(hwnd, hdc, rcOkno);
+		pret.Rysuj(hwnd, hdc, rcOkno);
+		EndPaint(hwnd, &ps);
 		break;
 	case WM_DESTROY:
 		KillTimer(hChild, ID_TIMER);
@@ -181,4 +203,8 @@ void CreateFront(HINSTANCE hInstance) {
 	HBRUSH brush = CreateSolidBrush(RGB(255, 255, 255)); //zmiana koloru t³a
 	SetClassLongPtr(hChild, GCLP_HBRBACKGROUND, (LONG)brush);
 }
-
+void Odczyt(HWND h) {
+	DWORD dlugosc = GetWindowTextLength(h);
+	Bufor = (LPSTR)GlobalAlloc(GPTR, dlugosc + 1);
+	GetWindowText(h, Bufor, dlugosc + 1);
+}

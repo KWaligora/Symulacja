@@ -1,14 +1,13 @@
 #pragma once
-#include "windows.h"
-class Kulka
+#include <windows.h>
+class Pret
 {
 private:
 	RECT Rc;
 	int SpeedX;
 	int SpeedY;
 public:
-	Kulka();
+	Pret();
 	void Rysuj(HWND hwnd, HDC hdc, RECT rcOkno);
-	void SetSpeed(int speed);
 };
 
