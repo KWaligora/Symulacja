@@ -2,12 +2,12 @@
 
 Kulka::Kulka()
 {
-	Rc.left = 700;
-	Rc.top = 325;
+	Rc.left = 600;
+	Rc.top = 375;
 	Rc.right = 650;
-	Rc.bottom = 375;
+	Rc.bottom = 325;
 
-	SpeedX = 0;
+	SpeedX = -2;
 	SpeedY = 0;
 }
 
@@ -22,4 +22,14 @@ void Kulka::Rysuj(HWND hwnd, HDC hdc, RECT rcOkno) {
 void Kulka::SetSpeed(int speed) {
 	SpeedX = speed;
 	SpeedY = speed;
+}
+
+RECT Kulka::GetPosition() {
+	return Rc;
+}
+
+void Kulka::Collision(RECT p, HWND hwnd) {
+	
+	if ((Rc.left <= p.right && Rc.left >= p.left) && (Rc.top >= p.top && Rc.bottom <= p.bottom))
+		SpeedX = -SpeedX;
 }

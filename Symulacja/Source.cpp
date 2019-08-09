@@ -8,7 +8,6 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 LRESULT CALLBACK ChildWindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 void CreateFront(HINSTANCE hInstance);
 void Odczyt(HWND h);
-void Refresh();
 
 char szClassName[] = "KlasaOkna";
 char szChildName[] = "KlasaOknaDziecka";
@@ -126,7 +125,8 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 LRESULT CALLBACK ChildWindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
 	case WM_TIMER:
-		//InvalidateRect(hwnd, NULL,NULL);
+		InvalidateRect(hwnd, NULL,NULL);
+		kulka.Collision(pret.GetPosition(), hwnd);
 		break;
 	case WM_PAINT:
 		RECT rcOkno;

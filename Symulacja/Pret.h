@@ -9,5 +9,6 @@ private:
 public:
 	Pret();
 	void Rysuj(HWND hwnd, HDC hdc, RECT rcOkno);
+	RECT GetPosition();
 };
 

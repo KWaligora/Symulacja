@@ -19,3 +19,7 @@ void Pret::Rysuj(HWND hwnd, HDC hdc, RECT rcOkno) {
 	OffsetRect(&Rc, SpeedX, SpeedY);
 	Rectangle(hdc, Rc.left, Rc.top, Rc.right, Rc.bottom);
 }
+
+RECT Pret::GetPosition() {
+	return Rc;
+}
