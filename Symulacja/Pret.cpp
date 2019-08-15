@@ -23,3 +23,16 @@ void Pret::Rysuj(HWND hwnd, HDC hdc, RECT rcOkno) {
 RECT Pret::GetPosition() {
 	return Rc;
 }
+
+void Pret::SetOnHit(float kSpeed, float kMass) {
+	SpeedX = ((2 * kMass) / (4 * kMass + Mass))*kSpeed;
+	SpeedX = -SpeedX;
+}
+
+void Pret::SetMass(float mass) {
+	Mass = mass;
+}
+
+float Pret::GetMass() {
+	return Mass;
+}

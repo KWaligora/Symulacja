@@ -105,7 +105,13 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 	switch (message) {
 	case WM_COMMAND:
 		if ((HWND)lParam == hPrzycisk) {
-			Odczyt(hPredkoscKulki);			
+			Odczyt(hMasaPreta);			
+			pret.SetMass(atoi(Bufor));
+			GlobalFree(Bufor);
+			Odczyt(hMasaKulki);
+			kulka.SetMass(atoi(Bufor));
+			GlobalFree(Bufor);
+			Odczyt(hPredkoscKulki);
 			kulka.SetSpeed(atoi(Bufor));
 			GlobalFree(Bufor);
 	}
@@ -125,8 +131,11 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 LRESULT CALLBACK ChildWindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
 	case WM_TIMER:
-		InvalidateRect(hwnd, NULL,NULL);
-		kulka.Collision(pret.GetPosition(), hwnd);
+		InvalidateRect(hwnd, NULL, NULL);
+		if (kulka.Collision(pret.GetPosition(), hwnd)) {
+			kulka.SetOnhit(pret.GetMass());
+			pret.SetOnHit(kulka.GetMass(), kulka.GetSpeed());
+		}
 		break;
 	case WM_PAINT:
 		RECT rcOkno;

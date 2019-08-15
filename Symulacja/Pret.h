@@ -4,11 +4,15 @@ class Pret
 {
 private:
 	RECT Rc;
-	int SpeedX;
-	int SpeedY;
+	float SpeedX;
+	float SpeedY;
+	float Mass;
 public:
 	Pret();
 	void Rysuj(HWND hwnd, HDC hdc, RECT rcOkno);
 	RECT GetPosition();
+	void SetOnHit(float kMass, float kSpeed);
+	void SetMass(float mass);
+	float GetMass();
 };
 
