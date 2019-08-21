@@ -2,10 +2,10 @@
 
 Pret::Pret()
 {
-	Rc.left = 200;
-	Rc.top = 350;
-	Rc.right = 400;
-	Rc.bottom = 360;
+	Rc.left = 295;
+	Rc.top = 150;
+	Rc.right = 305;
+	Rc.bottom = 350;
 
 	SpeedX = 0;
 	SpeedY = 0;

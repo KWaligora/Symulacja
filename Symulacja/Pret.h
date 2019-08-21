@@ -1,5 +1,7 @@
 #pragma once
 #include <windows.h>
+#include <math.h>
+#include "RPoint.h"
 class Pret
 {
 private:

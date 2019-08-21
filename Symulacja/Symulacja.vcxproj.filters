@@ -35,6 +35,9 @@
     <ClInclude Include="Pret.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RPoint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Symulacja.rc">

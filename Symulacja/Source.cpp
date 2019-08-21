@@ -183,7 +183,7 @@ void CreateFront(HINSTANCE hInstance) {
 	hPredkoscKulki = CreateWindowEx(WS_EX_CLIENTEDGE, "EDIT", "0", WS_CHILD | WS_BORDER | WS_VISIBLE,
 		830, 130, 50, 20, hwnd, NULL, hInstance, NULL);
 
-	CreateWindowEx(0, "STATIC", "Km/h", WS_CHILD | WS_VISIBLE | SS_LEFT,
+	CreateWindowEx(0, "STATIC", "m/s", WS_CHILD | WS_VISIBLE | SS_LEFT,
 		890, 130, 150, 20, hwnd, NULL, hInstance, NULL);
 
 	hPrzycisk = CreateWindowEx(0, "BUTTON", "Start", WS_CHILD | WS_VISIBLE, 745, 180, 150, 30, hwnd, NULL, hInstance, NULL);

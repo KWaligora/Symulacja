@@ -123,6 +123,7 @@
     <ClInclude Include="Kulka.h" />
     <ClInclude Include="Pret.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="RPoint.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Symulacja.rc" />
