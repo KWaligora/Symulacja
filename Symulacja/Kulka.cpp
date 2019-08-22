@@ -13,8 +13,8 @@ Kulka::Kulka()
 
 void Kulka::Rysuj(HWND hwnd, HDC hdc, RECT rcOkno) {
 	FillRect(hdc, &Rc, (HBRUSH)GetStockObject(WHITE_BRUSH));
-	if (Rc.left <= 0 || Rc.right >= rcOkno.right) SpeedX = -SpeedX;
-	if (Rc.top <= 0 || Rc.bottom >= rcOkno.bottom) SpeedY = -SpeedY;
+	if (Rc.left <= 0 || Rc.right >= rcOkno.right) SpeedX = 0;
+	if (Rc.top <= 0 || Rc.bottom >= rcOkno.bottom) SpeedY = 0;
 	OffsetRect(&Rc, SpeedX, SpeedY);
 	Ellipse(hdc, Rc.left, Rc.top, Rc.right, Rc.bottom);
 }
@@ -51,4 +51,3 @@ float Kulka::GetSpeed() {
 void Kulka::SetOnhit(float pMass) {
 	SpeedX = ((4 * Mass - pMass) / (4 * Mass + pMass))*SpeedX;
 }
-

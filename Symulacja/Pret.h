@@ -6,9 +6,12 @@ class Pret
 {
 private:
 	RECT Rc;
+	XFORM xfm;
 	float SpeedX;
 	float SpeedY;
 	float Mass;
+	float Omega;
+	float Omega0;
 public:
 	Pret();
 	void Rysuj(HWND hwnd, HDC hdc, RECT rcOkno);
