@@ -17,7 +17,8 @@ HWND hMDIClient;
 HWND hMasaKulki;
 HWND hMasaPreta;
 HWND hPredkoscKulki;
-HWND hPrzycisk;
+HWND hStart;
+HWND hReset;
 HWND hChild;
 
 const WORD ID_TIMER = 1;
@@ -104,7 +105,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
 	case WM_COMMAND:
-		if ((HWND)lParam == hPrzycisk) {
+		if ((HWND)lParam == hStart) {
 			Odczyt(hMasaPreta);			
 			pret.SetMass(atoi(Bufor));
 			GlobalFree(Bufor);
@@ -186,7 +187,9 @@ void CreateFront(HINSTANCE hInstance) {
 	CreateWindowEx(0, "STATIC", "m/s", WS_CHILD | WS_VISIBLE | SS_LEFT,
 		890, 130, 150, 20, hwnd, NULL, hInstance, NULL);
 
-	hPrzycisk = CreateWindowEx(0, "BUTTON", "Start", WS_CHILD | WS_VISIBLE, 745, 180, 150, 30, hwnd, NULL, hInstance, NULL);
+	hStart = CreateWindowEx(0, "BUTTON", "Start", WS_CHILD | WS_VISIBLE, 745, 180, 150, 30, hwnd, NULL, hInstance, NULL);
+
+	hReset = CreateWindowEx(0, "BUTTON", "Reset", WS_CHILD | WS_VISIBLE, 745, 230, 150, 30, hwnd, NULL, hInstance, NULL);
 
 	HWND Footer = CreateWindowEx(0, "STATIC", "Kamil Waligóra 2019", WS_CHILD | WS_VISIBLE | SS_RIGHT,
 		730, 700, 150, 20, hwnd, NULL, hInstance, NULL);

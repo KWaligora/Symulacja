@@ -12,6 +12,7 @@ private:
 	float Mass;
 	float Omega;
 	float Omega0;
+	bool hit;
 public:
 	Pret();
 	void Rysuj(HWND hwnd, HDC hdc, RECT rcOkno);
