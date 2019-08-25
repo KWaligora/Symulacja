@@ -22,9 +22,11 @@ HWND hReset;
 HWND hChild;
 
 const WORD ID_TIMER = 1;
-Kulka kulka;
-Pret pret;
+Kulka *kulka;
+Pret *pret;
 LPSTR Bufor;
+
+HBRUSH brush = CreateSolidBrush(RGB(255, 255, 255)); //zmiana koloru t³a
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 
@@ -89,6 +91,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ShowWindow(hMDIClient, nCmdShow);
 	//------------------------------------------------KOD-------------------------------------------------
 	CreateFront(hInstance);
+	pret = new Pret();
+	kulka = new Kulka();
 	if (SetTimer(hChild, ID_TIMER, 10, NULL) == 0)
 		MessageBox(hChild, "Nie mo¿na utworzyæ timera", "damn", MB_ICONSTOP);
 	//----------------------------------------------------------------------------------------------------
@@ -107,15 +111,22 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 	case WM_COMMAND:
 		if ((HWND)lParam == hStart) {
 			Odczyt(hMasaPreta);			
-			pret.SetMass(atoi(Bufor));
+			pret->SetMass(atoi(Bufor));
 			GlobalFree(Bufor);
 			Odczyt(hMasaKulki);
-			kulka.SetMass(atoi(Bufor));
+			kulka->SetMass(atoi(Bufor));
 			GlobalFree(Bufor);
 			Odczyt(hPredkoscKulki);
-			kulka.SetSpeed(atoi(Bufor));
+			kulka->SetSpeed(atoi(Bufor));
 			GlobalFree(Bufor);
-	}
+		}
+		else if ((HWND)lParam == hReset) {
+			delete pret;
+			delete kulka;
+			InvalidateRect(hChild, NULL, TRUE);
+			pret = new Pret();
+			kulka = new Kulka();
+		}
 	break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
@@ -133,23 +144,23 @@ LRESULT CALLBACK ChildWindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LP
 	switch (message) {
 	case WM_TIMER:
 		InvalidateRect(hwnd, NULL, NULL);
-		if (kulka.Collision(pret.GetPosition(), hwnd)) {
-			kulka.SetOnhit(pret.GetMass());
-			pret.SetOnHit(kulka.GetMass(), kulka.GetSpeed());
+		if (kulka->Collision(pret->GetPosition(), hwnd)) {
+			kulka->SetOnhit(pret->GetMass());
+			pret->SetOnHit(kulka->GetMass(), kulka->GetSpeed());
 		}
 		break;
 	case WM_PAINT:
 		RECT rcOkno;
 		PAINTSTRUCT ps;
 		HDC hdc;
-		hdc = BeginPaint(hwnd, &ps);
-		GetClientRect(hwnd, &rcOkno);
+		hdc = BeginPaint(hChild, &ps);
+		GetClientRect(hChild, &rcOkno);
 		SetMapMode(hdc, MM_ANISOTROPIC);
 		SetWindowExtEx(hdc, 700, 700, NULL);
 		SetViewportExtEx(hdc, rcOkno.right, rcOkno.bottom, NULL);
-		kulka.Rysuj(hwnd, hdc, rcOkno);
-		pret.Rysuj(hwnd, hdc, rcOkno);
-		EndPaint(hwnd, &ps);
+		kulka->Rysuj(hChild, hdc, rcOkno);
+		pret->Rysuj(hChild, hdc, rcOkno);
+		EndPaint(hChild, &ps);
 		break;
 	case WM_DESTROY:
 		KillTimer(hChild, ID_TIMER);
@@ -197,11 +208,11 @@ void CreateFront(HINSTANCE hInstance) {
 	MDICREATESTRUCT mcs;
 
 	mcs.szTitle = "Nowe okno MDI";
-	mcs.szClass = szChildName; // zak³adam, ¿e korzystasz z szablonu (punkt 1.5) 
-	mcs.hOwner = GetModuleHandle(NULL); // pobieramy instancjê aplikacji
+	mcs.szClass = szChildName; 
+	mcs.hOwner = GetModuleHandle(NULL); 
 	mcs.x = 0;
 	mcs.y = 0;
-	mcs.cx = 700; // domyœlne wymiary
+	mcs.cx = 700; 
 	mcs.cy = 700;
 	//mcs.style = MDIS_ALLCHILDSTYLES;
 	mcs.style &= ~WS_MAXIMIZE;
@@ -212,7 +223,7 @@ void CreateFront(HINSTANCE hInstance) {
 		MessageBox(hwnd, "Nie uda³o siê utworzyæ okienka MDI!", "A to szkoda...",
 			MB_ICONEXCLAMATION | MB_OK);
 	}
-	HBRUSH brush = CreateSolidBrush(RGB(255, 255, 255)); //zmiana koloru t³a
+	
 	SetClassLongPtr(hChild, GCLP_HBRBACKGROUND, (LONG)brush);
 }
 void Odczyt(HWND h) {

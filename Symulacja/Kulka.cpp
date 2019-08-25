@@ -3,12 +3,14 @@
 Kulka::Kulka()
 {
 	Rc.left = 600;
-	Rc.top = 375;
-	Rc.right = 650;
-	Rc.bottom = 325;
+	Rc.top = 515;
+	Rc.right = 625;
+	Rc.bottom = 540;
 
 	SpeedX = 0;
 	SpeedY = 0;
+
+	hit = false;
 }
 
 void Kulka::Rysuj(HWND hwnd, HDC hdc, RECT rcOkno) {
@@ -21,6 +23,7 @@ void Kulka::Rysuj(HWND hwnd, HDC hdc, RECT rcOkno) {
 
 void Kulka::SetSpeed(float speed) {
 	SpeedX = -speed;
+	SpeedX = SpeedX;
 }
 
 RECT Kulka::GetPosition() {
@@ -30,7 +33,6 @@ RECT Kulka::GetPosition() {
 bool Kulka::Collision(RECT p, HWND hwnd) {
 	
 	if ((Rc.left <= p.right && Rc.left >= p.left) && (Rc.top >= p.top && Rc.bottom <= p.bottom)) { //left
-		SpeedX = -SpeedX;
 		return true;
 	}
 	return false;	
@@ -48,6 +50,14 @@ float Kulka::GetSpeed() {
 	return -SpeedX;
 }
 
+RECT Kulka::GetRect()
+{
+	return Rc;
+}
+
 void Kulka::SetOnhit(float pMass) {
-	SpeedX = ((4 * Mass - pMass) / (4 * Mass + pMass))*SpeedX;
+	if (!hit) {
+		SpeedX = ((4 * Mass - pMass) / (4 * Mass + pMass))*SpeedX;
+		hit = true;
+	}
 }

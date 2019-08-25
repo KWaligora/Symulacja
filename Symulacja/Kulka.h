@@ -7,6 +7,7 @@ private:
 	float SpeedX;
 	float SpeedY;
 	float Mass;
+	bool hit;
 public:
 	Kulka();
 	void Rysuj(HWND hwnd, HDC hdc, RECT rcOkno);
@@ -16,6 +17,7 @@ public:
 	void SetMass(float mass);
 	float GetMass();
 	float GetSpeed();
+	RECT GetRect();
 	void SetOnhit(float pMass);
 };
 
