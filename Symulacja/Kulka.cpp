@@ -30,14 +30,6 @@ RECT Kulka::GetPosition() {
 	return Rc;
 }
 
-bool Kulka::Collision(RECT p, HWND hwnd) {
-	
-	if ((Rc.left <= p.right && Rc.left >= p.left) && (Rc.top >= p.top && Rc.bottom <= p.bottom)) { //left
-		return true;
-	}
-	return false;	
-}
-
 void Kulka::SetMass(float mass) {
 	Mass = mass;
 }

@@ -1,9 +1,9 @@
 #pragma once
 #include <windows.h>
 #include <math.h>
-#include "RPoint.h"
 class Pret
 {
+	friend class Collision;
 private:
 	RECT Rc;
 	XFORM xfm;

@@ -1,15 +1,15 @@
 #include "Collision.h"
 
-Collision::Collision(RECT pretR, RECT kulkaR)
+Collision::Collision(Kulka *kulka, Pret *pret)
 {
-	this->pretR = pretR;
-	this->kulkaR = kulkaR;
+	this->kulka = kulka;
+	this->pret = pret;
 }
 
-bool Collision::CheckCollsion() {
-	if ((kulkaR.left <= pretR.right && kulkaR.left >= pretR.left) 
-		&& (kulkaR.top >= pretR.top && kulkaR.bottom <= pretR.bottom)) { //left
-		return true;
+int Collision::CheckCollision() {
+	if ((kulka->Rc.left <= pret->Rc.right && kulka->Rc.left >= pret->Rc.left) &&
+		(kulka->Rc.top >= pret->Rc.top && kulka->Rc.bottom <= pret->Rc.bottom)) { //left
+		return 1;
 	}
-	return false;
+	return 0;
 }

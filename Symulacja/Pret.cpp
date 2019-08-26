@@ -64,7 +64,7 @@ void Pret::SetOnHit(float kSpeed, float kMass) {
 	if (!hit) {
 		SpeedX = ((2.0 * kMass) / (4.0 * kMass + Mass))*kSpeed;
 		SpeedX = -SpeedX;
-		Omega0 = (6 / 2)*(2 * kMass / (4 * kMass + Mass));
+		Omega0 = (6 / 1)*(2 * kMass / (4 * kMass + Mass));
 		float d = Omega0 * (180 / 3.14);
 		Omega = d;
 		Omega = Omega0;

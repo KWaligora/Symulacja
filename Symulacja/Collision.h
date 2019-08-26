@@ -1,11 +1,13 @@
 #pragma once
 #include <windows.h>
+#include "Pret.h"
+#include "Kulka.h"
 class Collision
 {
-	RECT pretR;
-	RECT kulkaR;
+	Kulka *kulka;
+	Pret *pret;
 public:
-	Collision(RECT pretR, RECT kulkaR);
-	bool CheckCollsion();
+	Collision(Kulka *kulka, Pret *pret);
+	int CheckCollision();
 };
 

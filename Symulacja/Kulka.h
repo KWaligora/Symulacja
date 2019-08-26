@@ -2,6 +2,7 @@
 #include "windows.h"
 class Kulka
 {
+	friend class Collision;
 private:
 	RECT Rc;
 	float SpeedX;
@@ -13,7 +14,6 @@ public:
 	void Rysuj(HWND hwnd, HDC hdc, RECT rcOkno);
 	void SetSpeed(float speed);
 	RECT GetPosition();
-	bool Collision(RECT p, HWND hwnd);
 	void SetMass(float mass);
 	float GetMass();
 	float GetSpeed();

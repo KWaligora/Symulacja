@@ -1,6 +1,7 @@
 #include <windows.h>
 #include "Kulka.h"
 #include "Pret.h"
+#include "Collision.h"
 
 #define ID_MDI_FIRSTCHILD  50000
 
@@ -22,8 +23,9 @@ HWND hReset;
 HWND hChild;
 
 const WORD ID_TIMER = 1;
-Kulka *kulka;
-Pret *pret;
+Kulka *kulka = new Kulka();
+Pret *pret = new Pret();
+Collision collision(kulka, pret);
 LPSTR Bufor;
 
 HBRUSH brush = CreateSolidBrush(RGB(255, 255, 255)); //zmiana koloru t³a
@@ -91,8 +93,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ShowWindow(hMDIClient, nCmdShow);
 	//------------------------------------------------KOD-------------------------------------------------
 	CreateFront(hInstance);
-	pret = new Pret();
-	kulka = new Kulka();
+
 	if (SetTimer(hChild, ID_TIMER, 10, NULL) == 0)
 		MessageBox(hChild, "Nie mo¿na utworzyæ timera", "damn", MB_ICONSTOP);
 	//----------------------------------------------------------------------------------------------------
@@ -144,7 +145,7 @@ LRESULT CALLBACK ChildWindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LP
 	switch (message) {
 	case WM_TIMER:
 		InvalidateRect(hwnd, NULL, NULL);
-		if (kulka->Collision(pret->GetPosition(), hwnd)) {
+		if(collision.CheckCollision()){
 			kulka->SetOnhit(pret->GetMass());
 			pret->SetOnHit(kulka->GetMass(), kulka->GetSpeed());
 		}
